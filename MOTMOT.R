@@ -62,12 +62,30 @@ mass_ma <- as.matrix(mass_ma[phy_ma$tip.label])
 
 tm2_am <- transformPhylo.ML(y = mass_am, phy = phy_am, model = "tm2", 
                             minCladeSize = 10)
+save(tm2_am, file = "data/amphibia/tm2_am.RData")
 tm2_sq <- transformPhylo.ML(y = mass_sq, phy = phy_sq, model = "tm2", 
                             minCladeSize = 10)
+save(tm2_sq, file = "data/reptilia/tm2_sq.RData")
+a <- Sys.time()
 tm2_av <- transformPhylo.ML(y = mass_av, phy = phy_av, model = "tm2", 
                             minCladeSize = 10)
+save(tm2_av, file = "data/aves/tm2_av.RData")
+b <- Sys.time()
+b-a #5.186459 days
+
+a <- Sys.time()
 tm2_ma <- transformPhylo.ML(y = mass_ma, phy = phy_ma, model = "tm2", 
                             minCladeSize = 10)
+save(tm2_ma, file = "data/mammalia/tm2_am.RData")
+b <- Sys.time()
+b-a # ???????? 
+
+
+
+
+
+
+
 
 summ_am <- traitMedusaSummary(tm2_am, AICc = T)
 summ_sq <- traitMedusaSummary(tm2_sq, AICc = T)
