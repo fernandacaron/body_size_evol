@@ -78,14 +78,7 @@ tm2_ma <- transformPhylo.ML(y = mass_ma, phy = phy_ma, model = "tm2",
                             minCladeSize = 10)
 save(tm2_ma, file = "data/mammalia/tm2_am.RData")
 b <- Sys.time()
-b-a # ???????? 
-
-
-
-
-
-
-
+b-a ## ? 
 
 summ_am <- traitMedusaSummary(tm2_am, AICc = T)
 summ_sq <- traitMedusaSummary(tm2_sq, AICc = T)
