@@ -15,7 +15,7 @@ tr_ma <- read.nexus("data/mammalia/mammalia_node_dated_VertLife_27JUL20.nex")
 
 dat_am <- read.csv("data/amphibia/BodySizeAmphibia_09set21.csv")
 dat_sq <- read.csv("data/reptilia/BodySizeReptilia_15set21.csv")
-dat_av <- read.csv("data/aves/BodySizeAves_09set21.csv")
+dat_av <- read.csv("data/aves/BodySizeAves_10set22.csv")
 dat_ma <- read.csv("data/mammalia/BodySizeMammalia_09set21.csv")
 
 ## Fazendo log do tamanho de corpo e pegando só as espécies com dados
@@ -100,6 +100,7 @@ for (i in 1:1000) {
 
 
 for (i in 1:1000) {
+     print(i)
   fit_bm_av <- fitContinuous(pruned_av[[i]], mass_ord_av[[i]], model = "BM")
   ad.fit_bm_av <- arbutus(fit_bm_av, nsim = 1)
   
@@ -117,7 +118,7 @@ for (i in 1:1000) {
   res_av[i, 12] <- ad.fit_bm_av$sim$d.cdf
   res_av[i, 13] <- ad.fit_bm_av$obs$d.cdf
 }
-#write.csv(res_av, "data/aves/res_av.csv")
+#write.csv(res_av, "data/aves/res_av_new.csv")
 
 
 for (i in 1:1000) {
@@ -142,7 +143,7 @@ for (i in 1:1000) {
 
 #res_am <- read.csv("data/amphibia/res_am.csv")
 #res_sq <- read.csv("data/reptilia/res_sq.csv")
-#res_av <- read.csv("data/aves/res_av.csv")
+#res_av <- read.csv("data/aves/res_av_new.csv")
 #res_ma <- read.csv("data/mammalia/res_ma.csv")
 
 #Figure 4

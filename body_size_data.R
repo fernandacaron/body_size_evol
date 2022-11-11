@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd("Documents/Lab/body_size_evol")
+setwd("Documents/lab/body_size_evol")
 
 #Esse código vai pegar os dados de body mass e SVL para as espécies de 
 #vertebrados presentes nas filogenias
@@ -180,7 +180,7 @@ colnames(ref_av_1)[colnames(ref_av_1) == "Scientific"] <- "Species"
 ref_av_2 <- read.csv("data/aves/Ocampo&al2020_DataS1_BodyMass.csv")
 
 #Lislevand et al. 2007 - Body_mass_g_3, Body_mass_g_M_3 e Body_mass_g_F_3
-ref_av_3 <- read.csv("data/aves/Lislevand2007_19aug21.csv") 
+ref_av_3 <- read.csv("data/aves/Lislevand2007_30may22.csv") 
 colnames(ref_av_3)[colnames(ref_av_3) == "Species_name"] <- "Species"
 ref_av_3$Species <- stri_replace_all_fixed(ref_av_3$Species, " ", "_")
 ref_av_3$M_mass[ref_av_3$M_mass == -999] <- NA
@@ -240,7 +240,7 @@ dat_av <- getSppTraits(dat_av, ref_av_4, "Body_mass_g_4", "adult_body_mass_g")
 dat_av <- getSppTraits(dat_av, ref_av_4, "Body_mass_g_M_4", "male_body_mass_g")
 dat_av <- getSppTraits(dat_av, ref_av_4, "Body_mass_g_F_4", "female_body_mass_g")
 
-fzi in 1:nrow(dat_av)) {
+for (i in 1:nrow(dat_av)) {
   x <- c(dat_av$Body_mass_g_1[i], dat_av$Body_mass_g_2[i], dat_av$Body_mass_g_3[i],
        dat_av$Body_mass_g_4[i])
   x <- as.numeric(x)
@@ -281,7 +281,7 @@ fzi in 1:nrow(dat_av)) {
   }
 }
 
-write.csv(dat_av, "data/aves/BodySizeAves_09set21.csv")
+write.csv(dat_av, "data/aves/BodySizeAves_10set22.csv")
 
 ##################
 

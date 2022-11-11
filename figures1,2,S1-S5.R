@@ -1,6 +1,6 @@
 rm(list  =  ls())
 
-setwd("Documents/Lab/body_size_evol")
+setwd("Documents/lab/body_size_evol")
 
 library(viridis)
 library(phytools)
@@ -12,7 +12,7 @@ library(geiger)
 
 dat_am <- read.csv("data/amphibia/BodySizeAmphibia_09set21.csv")
 dat_sq <- read.csv("data/reptilia/BodySizeReptilia_15set21.csv")
-dat_av <- read.csv("data/aves/BodySizeAves_09set21.csv")
+dat_av <- read.csv("data/aves/BodySizeAves_10set22.csv")
 dat_ma <- read.csv("data/mammalia/BodySizeMammalia_09set21.csv")
 
 colorRampAlpha  <-  function(..., n, alpha) {
@@ -354,7 +354,7 @@ dev.off()
 ###############
 
 #Figure S3 - SVL (mean)
-pdf("figures/FigureS3.1.pdf", width = 9)
+pdf("figures/FigureS3.pdf", width = 9)
 
 #Amphibia 
 
@@ -415,7 +415,7 @@ dev.off()
 ##################
 
 #Figure S4 - SVL (median, max)
-pdf("figures/FigureS4.1.pdf", width  =  12, height  =  6)
+pdf("figures/FigureS4.pdf", width  =  12, height  =  6)
 
 #Squamata
 
@@ -521,7 +521,7 @@ plot_av <- setMap(map_av, cols_pal)
 map_ma <- contMap(tr_map_ma, log_mass_ma, plot = F, lims = c(-2.5, 19))
 plot_ma <- setMap(map_ma, cols_pal)
 
-pdf("figures/Figure2_labels.pdf", width = 8)
+pdf("figures/Figure2.pdf", width = 8)
 
 layout(matrix(c(1,2,3,4,5,5), nrow = 2), widths  =  c(1, 1, 0.4))
 
@@ -529,217 +529,18 @@ par(mar = c(3,4,4,4))
 
 plot(plot_am, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F,
      mar = c(2,1,1,1))
-arc.cladelabels(text = "Anura", mark.node = FALSE, cex = 0.6, col = col_am[1], 
-                lwd = 3,
-                node = findMRCA(tr_map_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Anura" & !is.na(dat_am$Body_mass_g_1)])))
-arc.cladelabels(text = "Caudata", mark.node = FALSE, cex = 0.6, col = col_am[2],
-                lwd = 3,
-                node = findMRCA(tr_map_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Caudata" & !is.na(dat_am$Body_mass_g_1)])))
-arc.cladelabels(text = "Gymnophiona", mark.node = FALSE, cex = 0.6, 
-                col = col_am[3], 
-                lwd = 3,
-                node = findMRCA(tr_map_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Gymnophiona" & 
-                                  !is.na(dat_am$Body_mass_g_1)])))
 title("A", adj = 0, line = -1)
 mtext("Amphibia", cex = 0.6, side = 1)
 
 plot(plot_av, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F, mar = c(2,1,1,1))
-arc.cladelabels(text = "Apodiformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[1], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Apodiformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == "Apodiformes" &
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Charadriiformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[2], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Charadriiformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == 
-                                                 "Charadriiformes" & 
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Columbiformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[3], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Columbiformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == 
-                                                 "Columbiformes" & 
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Passeriformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[4], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Passeriformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == "Passeriformes" & 
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Piciformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[5], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Piciformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == "Piciformes" & 
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Psittaciformes", mark.node = FALSE, cex = 0.6, 
-                col = col_av[6], 
-                lwd = 3,
-                node = findMRCA(tr_map_av, 
-                                c(dat_av$Scientific_name[dat_av$Order == 
-                                  "Psittaciformes" & 
-                                  !is.na(dat_av$Body_mass_g_mean)][
-                                  complete.cases(dat_av$Scientific_name[
-                                                 dat_av$Order == "Psittaciformes" & 
-                                                 !is.na(dat_av$Body_mass_g_mean)])])))
 title("C", adj = 0, line = -1)
 mtext("Aves", cex = 0.6, side = 1)
 
 plot(plot_sq, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F, mar = c(2,1,1,1))
-arc.cladelabels(text = "Anguimorpha", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[1], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Anguimorpha" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Anguimorpha" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Gekkota", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[2], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Gekkota" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Gekkota" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Iguania", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[3], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Iguania" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Iguania" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Lacertoidea", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[4], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Lacertoidea" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Lacertoidea" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Scincoidea", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[5], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Scincoidea" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Scincoidea" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Serpentes", mark.node = FALSE, cex = 0.6, 
-                col = col_sq[6], 
-                lwd = 3, 
-                node = findMRCA(tr_map_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Serpentes" & 
-                                  !is.na(dat_sq$Body_mass_g_mean)][
-                                  complete.cases(dat_sq$Scientific_name[
-                                                 dat_sq$Taxon == "Serpentes" & 
-                                                 !is.na(dat_sq$Body_mass_g_mean)])])))
 title("B", adj = 0, line = -1)
 mtext("Squamata", cex = 0.6, side = 1)
 
 plot(plot_ma, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F,  mar = c(2,1,1,1))
-arc.cladelabels(text = "Carnivora", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[1], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Carnivora" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Carnivora" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Cetartiodactyla", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[2], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Cetartiodactyla" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Cetartiodactyla" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Chiroptera", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[3], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Chiroptera" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Chiroptera" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Eulipotyphla", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[4], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Eulipotyphla" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Eulipotyphla" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Primates", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[5], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Primates" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Primates" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
-arc.cladelabels(text = "Rodentia", mark.node = FALSE, cex = 0.6, 
-                col = col_ma[6], 
-                lwd = 3,
-                node = findMRCA(tr_map_ma, 
-                                c(dat_ma$Scientific_name[dat_ma$Order == 
-                                  "Rodentia" & 
-                                  !is.na(dat_ma$Body_mass_g_mean)][
-                                  complete.cases(dat_ma$Scientific_name[
-                                                 dat_ma$Order == "Rodentia" & 
-                                                 !is.na(dat_ma$Body_mass_g_mean)])])))
 title("D", adj = 0, line = -1)
 mtext("Mammalia", cex = 0.6, side = 1)
 
@@ -777,83 +578,17 @@ plot_svl_am <- setMap(map_svl_am, cols_pal)
 map_svl_sq <- contMap(tr_map_svl_sq, log_svl_sq, plot = F, lims = c(2.15, 9.25))
 plot_svl_sq <- setMap(map_svl_sq, cols_pal)
 
-pdf("figures/FigureS5_labels.pdf", width = 8, height = 4)
+pdf("figures/FigureS5.pdf", width = 8, height = 4)
 
 layout(matrix(c(1,2,3), nrow = 1), widths  =  c(1, 1, 0.4))
 
 par(mar = c(3,4,4,4))
 
 plot(plot_svl_am, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F, mar = c(2,1,1,1))
-arc.cladelabels(text = "Anura", mark.node = FALSE, cex = 0.5, 
-                col = col_am[1], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Anura" & !is.na(dat_am$SVL_mm_1)])))
-arc.cladelabels(text = "Caudata", mark.node = FALSE, cex = 0.5, 
-                col = col_am[2], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Caudata" & !is.na(dat_am$SVL_mm_1)])))
-arc.cladelabels(text = "Gymnophiona", mark.node = FALSE, cex = 0.5, 
-                col = col_am[3], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_am, 
-                                c(dat_am$Scientific_name[dat_am$Order == 
-                                  "Gymnophiona" & !is.na(dat_am$SVL_mm_1)])))
 title("A", adj = 0, line = -1)
 mtext("Amphibia", cex = 0.8, side = 1)
 
 plot(plot_svl_sq, ftype = "off", type = "fan", lwd = 1, outline = F, fsize = 1, legend = F, mar = c(2,1,1,1))
-arc.cladelabels(text = "Anguimorpha", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[1], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Anguimorpha" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Anguimorpha" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
-arc.cladelabels(text = "Gekkota", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[2], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Gekkota" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Gekkota" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
-arc.cladelabels(text = "Iguania", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[3], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Iguania" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Iguania" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
-arc.cladelabels(text = "Lacertoidea", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[4], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Lacertoidea" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Lacertoidea" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
-arc.cladelabels(text = "Scincoidea", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[5], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Scincoidea" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Scincoidea" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
-arc.cladelabels(text = "Serpentes", mark.node = FALSE, cex = 0.5, 
-                col = col_sq[6], 
-                lwd = 3,
-                node = findMRCA(tr_map_svl_sq, 
-                                c(dat_sq$Scientific_name[dat_sq$Taxon == 
-                                  "Serpentes" & !is.na(dat_sq$SVL_mm_mean)][
-                                  complete.cases(dat_sq$Scientific_name[dat_sq$Taxon == "Serpentes" & 
-                                                 !is.na(dat_sq$SVL_mm_mean)])])))
 title("B", adj = 0, line = -1)
 mtext("Squamata", cex = 0.8, side = 1)
 

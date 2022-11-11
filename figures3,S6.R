@@ -12,7 +12,7 @@ tr_ma <- read.nexus("data/mammalia/mammalia_node_dated_VertLife_27JUL20.nex")[1:
 
 dat_am <- read.csv("data/amphibia/BodySizeAmphibia_09set21.csv")
 dat_sq <- read.csv("data/reptilia/BodySizeReptilia_15set21.csv")
-dat_av <- read.csv("data/aves/BodySizeAves_09set21.csv")
+dat_av <- read.csv("data/aves/BodySizeAves_10set22.csv")
 dat_ma <- read.csv("data/mammalia/BodySizeMammalia_09set21.csv")
 
 ## Fazendo log do tamanho de corpo e pegando so as spp com dados
@@ -83,7 +83,7 @@ for (i in 1:100) {
   dtt_av$times[, i] <- x$times
   dtt_av$sim[, i] <- rowMeans(x$sim)
 }
-#save(dtt_av, file="data/aves/dtt_av.RData")
+#save(dtt_av, file="data/aves/dtt_av_new.RData")
 
 dtt_ma$dtt <- dtt_ma$times <- dtt_ma$sim <-
       matrix(nrow = length(mass_ma), ncol = 100)
@@ -98,7 +98,7 @@ for (i in 1:100) {
 
 #load(file="data/amphibia/dtt_am.RData")
 #load(file="data/reptilia/dtt_sq.RData")
-#load(file="data/aves/dtt_av.RData")
+#load(file="data/aves/dtt_av_new.RData")
 #load(file="data/mammalia/dtt_ma.RData")
 
 cols <- c(rgb(139/255, 71/255, 137/255, 0.4), rgb(97/255, 82/255, 190/255, 0.4),
