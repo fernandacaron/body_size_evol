@@ -1,21 +1,15 @@
 rm(list = ls())
 
-setwd("Documents/lab/body_size_evol")
+setwd("~/Documents/lab/body_size_evol")
 
-#Esse código vai pegar os dados de body mass e SVL para as espécies de 
-#vertebrados presentes nas filogenias
-
-#Pegar todos os dados de fontes diferentes e separar em diferentes colunas, 
-#Depois, fazer média em uma coluna, mediana e máximo de todas as fontes.
+## code to extract body mass and SVL data for the species present in the
+## phylogenies, averaging the estimates between sources (and taking the median
+## and maximum)
 
 library(phytools)
 library(stringi)
+library(smatr)
 
-#Função para colocar automaticamente os dados dos traits respectivos nos dados 
-#(data) do grupo indicado. "data" - dataframe onde serão colocados os dados com 
-#coluna "Scientific_name" e coluna do trait como "traitCol", "ref" - de onde 
-#serão retirados os dados com coluna trait de nome "trait" a "data" e com
-#coluna "Species"
 getSppTraits <- function(data, ref, traitCol, trait) {
 	for (i in 1:nrow(data)) {
 		data[colnames(data) == traitCol][i, ] <- 
@@ -33,11 +27,11 @@ getSppTraits <- function(data, ref, traitCol, trait) {
 
 dat <- read.csv("data/taxonomy_vert_20jul21.csv")
 
-#Amphibia
+## amphibia
 
 dat_am <- dat[dat$Class == "Amphibia",]
 
-#Oliveira et al. 2017 (AmphiBIO v.1) - Body_mass_g_1 e SVL_mm_1
+# oliveira et al. 2017 (AmphiBIO v.1) - Body_mass_g_1 e SVL_mm_1
 ref_am_1 <- read.csv("data/amphibia/AmphiBIO_v1_20jul21.csv") #AmphiBIOv1
 
 dat_am["SVL_mm_1"] <- dat_am["Body_mass_g_1"] <- NA
@@ -47,9 +41,55 @@ dat_am <- getSppTraits(dat_am, ref_am_1, "SVL_mm_1", "Body_size_mm")
 
 write.csv(dat_am, "data/amphibia/BodySizeAmphibia_09set21.csv")
 
-##################
+##### transforming the SVL data into mass
 
-#Reptilia
+# dat_am <- read.csv("data/amphibia/BodySizeAmphibia_09set21.csv")
+
+length_am <- dat_am$SVL_mm_1
+names(length_am) <- dat_am$Scientific_name
+length_am <- length_am[complete.cases(length_am)]
+
+mass_am <- dat_am$Body_mass_g_1
+names(mass_am) <- dat_am$Scientific_name
+mass_am <- mass_am[complete.cases(mass_am)]
+
+length_am <- length_am[names(length_am) %in% names(mass_am)]
+length_am <- length_am[names(length_am) != "Andrias_japonicus"]
+mass_am <- mass_am[names(mass_am) %in% names(length_am)]
+
+# perform reduced major axis regression, force through origin
+sma_model_am <- sma(log(mass_am) ~ log(length_am) - 1)
+
+# extract the slope
+slope_am <- coef(sma_model_am)[2]
+
+# print the equation for prediction (intercept is forced to be zero)
+cat("RMA Regression Equation: mass =", slope_am, "* length\n")
+
+dat_am_RMA <- cbind(dat_am, NA)
+colnames(dat_am_RMA)[8] <- "Body_mass_g_RMA"
+
+for (i in 1:nrow(dat_am_RMA)) {
+  spp <- dat_am_RMA$Scientific_name[i]
+  mass <- dat_am_RMA$Body_mass_g_1[i]
+  length <- dat_am_RMA$SVL_mm_1[i]
+  
+  if (!is.na(length)) {
+    if(length != 0) {
+      if (is.na(mass)) {
+        mass <- slope_am * log(length)
+        dat_am_RMA$Body_mass_g_RMA[i] <- exp(mass)
+      } else {
+        dat_am_RMA$Body_mass_g_RMA[i] <- mass
+      }
+    }
+  }
+}
+
+write.csv(dat_am_RMA, "data/amphibia/BodySizeAmphibia_RMA_17jan24.csv",
+          row.names = F)
+
+# reptilia
 
 dat_sq <- dat[dat$Class == "Reptilia",]
 
@@ -59,7 +99,7 @@ colnames(ref_sq_1)[colnames(ref_sq_1) == "binomial"] <- "Species"
 
 #Meiri 2019a (Endotherms) - Body_mass_g_2
 ref_sq_2 <- read.csv("data/reptilia/Meiri2019_Entotherm_blz138_suppl_appendix_1.csv") 
-colnames(ref_sq_2)[colnames(ref_sq_2) == "ï..species"] <- "Species"
+colnames(ref_sq_2)[colnames(ref_sq_2) == "?..species"] <- "Species"
 
 #Myhrvold et al. 2015 (Amniote Database) - Body_mass_3 e SVL_mm_3
 ref_sq_3 <- read.csv("data/reptilia/AmnioteDatabase2015_02set2021.csv") 
@@ -117,8 +157,6 @@ for (i in 1:nrow(dat_sq)) {
 
 write.csv(dat_sq, "data/reptilia/BodySizeReptilia_09set21.csv")
 
-#só para dividir nos táxons normais
-
 dat_sq <- read.csv("data/reptilia/BodySizeReptilia_09set21.csv")
 
 taxonRe <- data.frame(Family = c("Anguidae", "Anniellidae", "Diploglossidae",
@@ -155,8 +193,6 @@ taxonRe <- data.frame(Family = c("Anguidae", "Anniellidae", "Diploglossidae",
                       Taxon = c(rep("Anguimorpha", 8), rep("Lacertoidea", 9),
                                 rep("Gekkota", 7), rep("Scincoidea", 4),
                                 rep("Iguania", 14), rep("Serpentes", 27)))
-
-#"Dibamidae"*, "Gymnophthalmidae", "Teiidae"  ???
 
 dat_sq["Taxon"] <- NA
 for (i in 1:nrow(dat_sq)) {
@@ -285,7 +321,7 @@ write.csv(dat_av, "data/aves/BodySizeAves_10set22.csv")
 
 ##################
 
-#Mamíferos
+#Mam?feros
 
 dat_ma <- dat[dat$Class == "Mammalia",]
 
@@ -333,3 +369,5 @@ for (i in 1:nrow(dat_ma)) {
 }
 
 write.csv(dat_ma, "data/mammalia/BodySizeMammalia_09set21.csv")
+
+### 
