@@ -18,7 +18,7 @@ dat_sq <- read.csv("data/reptilia/BodySizeReptilia_15set21.csv")
 dat_av <- read.csv("data/aves/BodySizeAves_10set22.csv")
 dat_ma <- read.csv("data/mammalia/BodySizeMammalia_09set21.csv")
 
-## Fazendo log do tamanho de corpo e pegando só as espécies com dados
+## Fazendo log do tamanho de corpo e pegando sÃ³ as espÃ©cies com dados
 mass_am <- log(dat_am$Body_mass_g_1)
 names(mass_am) <- dat_am$Scientific_name
 mass_am <- mass_am[complete.cases(mass_am)]
@@ -35,7 +35,7 @@ mass_ma <- log(dat_ma$Body_mass_g_mean)
 names(mass_ma) <- dat_ma$Scientific_name
 mass_ma <- mass_ma[complete.cases(mass_ma)]
 
-## Tirando das árvores as spp sem dados 
+## Tirando das Ã¡rvores as spp sem dados 
 pruned_am <- pruned_sq <- pruned_av <- pruned_ma <- list()
 
 for (i in 1:1000) pruned_am[[i]] <- treedata(tr_am[[i]], mass_am, warnings = F)$phy
@@ -43,13 +43,13 @@ for (i in 1:1000) pruned_sq[[i]] <- treedata(tr_sq[[i]], mass_sq, warnings = F)$
 for (i in 1:1000) pruned_av[[i]] <- treedata(tr_av[[i]], mass_av, warnings = F)$phy
 for (i in 1:1000) pruned_ma[[i]] <- treedata(tr_ma[[i]], mass_ma, warnings = F)$phy
 
-## Ordenando os dados de tamanho de corpo de acordo com os tips das árvores
+## Ordenando os dados de tamanho de corpo de acordo com os tips das Ã¡rvores
 mass_ord_am <- lapply(pruned_am, function(x) mass_am[x$tip.label])
 mass_ord_sq <- lapply(pruned_sq, function(x) mass_sq[x$tip.label])
 mass_ord_av <- lapply(pruned_av, function(x) mass_av[x$tip.label])
 mass_ord_ma <- lapply(pruned_ma, function(x) mass_ma[x$tip.label])
 
-## Ajustando o modelo de movimento Browniano e vendo adequação do modelo
+## Ajustando o modelo de movimento Browniano e vendo adequaÃ§Ã£o do modelo
 res_am <- res_sq <- res_av <- res_ma <- matrix(ncol = 13, nrow = 1000)
 colnames(res_am) <- colnames(res_sq) <- colnames(res_av) <- colnames(res_ma) <- 
 	c("sigsq", 
@@ -262,7 +262,7 @@ dev.off()
 
 ## SVL
 
-## Fazendo log do tamanho de corpo e pegando só as espécies com dados
+## Fazendo log do tamanho de corpo e pegando sÃ³ as espÃ©cies com dados
 svl_am <- log(dat_am$SVL_mm_1)
 names(svl_am) <- dat_am$Scientific_name
 svl_am <- svl_am[complete.cases(svl_am)]
@@ -271,7 +271,7 @@ svl_sq <- log(dat_sq$SVL_mm_mean)
 names(svl_sq) <- dat_sq$Scientific_name
 svl_sq <- svl_sq[complete.cases(svl_sq)]
 
-## Tirando das árvores as spp sem dados 
+## Tirando das Ã¡rvores as spp sem dados 
 svl_pruned_am <- svl_pruned_sq <- list()
 
 for (i in 1:1000) svl_pruned_am[[i]] <- 
@@ -279,11 +279,11 @@ for (i in 1:1000) svl_pruned_am[[i]] <-
 for (i in 1:1000) svl_pruned_sq[[i]] <- 
   treedata(tr_sq[[i]], svl_sq, warnings = F)$phy
 
-## Ordenando os dados de tamanho de corpo de acordo com os tips das árvores
+## Ordenando os dados de tamanho de corpo de acordo com os tips das Ã¡rvores
 svl_ord_am <- lapply(svl_pruned_am, function(x) svl_am[x$tip.label])
 svl_ord_sq <- lapply(svl_pruned_sq, function(x) svl_sq[x$tip.label])
 
-## Ajustando o modelo de movimento Browniano e vendo adequação do modelo
+## Ajustando o modelo de movimento Browniano e vendo adequaÃ§Ã£o do modelo
 svl_res_am <- svl_res_sq <- matrix(ncol = 13, nrow = 1000)
 colnames(svl_res_am) <- colnames(svl_res_sq) <- 
 	c("sigsq", 
