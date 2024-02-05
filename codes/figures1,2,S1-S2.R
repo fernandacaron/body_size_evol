@@ -47,7 +47,7 @@ pdf("EvolBiol_20oct23/rev1/Figure1.pdf", width = 10, height = 9)
 par(fig = c(0, 0.5, 0.66, 1), mar = c(2, 4, 2, 2))
 
 hist(log(dat_am$Body_mass_g_RMA[dat_am$Order == "Anura"]), ylim = c(0, 1.2), 
-     main = "", xlim = c(-3, 15),  xlab = "", breaks = 20, col = col_al_am[1], 
+     main = "", xlim = c(-6, 20),  xlab = "", breaks = 20, col = col_al_am[1], 
      freq = F, border = col_am[1])
 hist(log(dat_am$Body_mass_g_RMA[dat_am$Order == "Caudata"]), add = T, 
      col = col_al_am[2], breaks = 20, freq = F, border = col_am[2])
@@ -66,7 +66,7 @@ skewness(log(dat_am$Body_mass_g_RMA[dat_am$Order == "Gymnophiona"]), na.rm = T)
 par(fig = c(0.5, 1, 0.66, 1), mar = c(2, 3, 2, 2), new = T)
 
 hist(log(dat_sq$Body_mass_g_mean[dat_sq$Taxon == "Anguimorpha"]),
-     ylim = c(0, 0.5), xlim = c(-3, 15), main = "", xlab = "", ylab = "", 
+     ylim = c(0, 0.5), xlim = c(-5, 17), main = "", xlab = "", ylab = "", 
      breaks = 20, col = col_al_sq[1], border = col_sq[1], freq = F)
 hist(log(dat_sq$Body_mass_g_mean[dat_sq$Taxon == "Gekkota"]), add = T, 
      breaks = 20, col = col_al_sq[2], freq = F, border = col_sq[2])
@@ -421,10 +421,10 @@ dev.off()
 ###############
 
 #Figure 2 - mapping body size in the phylogenies
-tr_am <- read.nexus("~/Documents/lab/data/trees/amphibia_VertLife_27JUL20.nex")
-tr_sq <- read.nexus("~/Documents/lab/data/trees/squamata_VertLife_27JUL20.nex")
-tr_av <- read.nexus("~/Documents/lab/data/trees/aves_Ericson_VertLife_27JUL20.nex")
-tr_ma <- read.nexus("~/Documents/lab/data/trees/mammalia_node_dated_VertLife_27JUL20.nex")
+tr_am <- read.nexus("data/amphibia/MCC_amphibia.nex")
+tr_sq <- read.nexus("data/reptilia/MCC_squamata.nex")
+tr_av <- read.nexus("data/aves/MCC_aves.nex")
+tr_ma <- read.nexus("data/mammalia/MCC_mammalia.nex")
 
 log_mass_am <- log(dat_am$Body_mass_g_RMA)
 names(log_mass_am) <- dat_am$Scientific_name
@@ -443,16 +443,16 @@ log_mass_sq <- log_mass_sq[complete.cases(log_mass_sq)]
 log_mass_av <- log_mass_av[complete.cases(log_mass_av)]
 log_mass_ma <- log_mass_ma[complete.cases(log_mass_ma)]
 
-tr_map_am <- treedata(tr_am[[1]], log_mass_am)$phy
+tr_map_am <- treedata(tr_am, log_mass_am)$phy
 log_mass_am <- log_mass_am[tr_map_am$tip.label]
 
-tr_map_sq <- treedata(tr_sq[[1]], log_mass_sq)$phy
+tr_map_sq <- treedata(tr_sq, log_mass_sq)$phy
 log_mass_sq <- log_mass_sq[tr_map_sq$tip.label]
 
-tr_map_av <- treedata(tr_av[[1]], log_mass_av)$phy
+tr_map_av <- treedata(tr_av, log_mass_av)$phy
 log_mass_av <- log_mass_av[tr_map_av$tip.label]
 
-tr_map_ma <- treedata(tr_ma[[1]], log_mass_ma)$phy
+tr_map_ma <- treedata(tr_ma, log_mass_ma)$phy
 log_mass_ma <- log_mass_ma[tr_map_ma$tip.label]
 
 cols_pal <- turbo(20)
@@ -469,7 +469,7 @@ plot_av <- setMap(map_av, cols_pal)
 map_ma <- contMap(tr_map_ma, log_mass_ma, plot = F, lims = c(-2.5, 19))
 plot_ma <- setMap(map_ma, cols_pal)
 
-pdf("EvolBiol_20oct23/rev1/Figure2_median.pdf", width = 8)
+pdf("EvolBiol_20oct23/rev1/Figure2.pdf", width = 8)
 
 layout(matrix(c(1,2,3,4,5,5), nrow = 2), widths  =  c(1, 1, 0.4))
 
